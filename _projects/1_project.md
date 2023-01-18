@@ -1,80 +1,42 @@
 ---
 layout: page
-title: ADMM
-description: A note for ADMM algorithm
+title: Mode Connectivity
+description: A note for Mode Connectivity
 img: assets/img/12.jpg
 importance: 1
 category: study
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
+Let $$w_1 \in \mathbb{R}^{|net|}$$ and $$w_2 \in \mathbb{R}^{|net|}$$ be two sets of weights corresponding to two neural networks independently trained by minimizing any specified loss $$\mathcal{L} ( w )$$ (like the cross-entropy loss). Here, $$|net|$$ is the number of weights of the DNN. Moreover, we could let $$\phi_{\theta}(t) : [0,1] \rightarrow \mathbb{R}^{|net|}$$ be a continuous piece-wise smooth parametric curve connecting $$w_1$$ and $$w_2$$, with parameters $$\theta$$, such that $$\phi_{\theta}(0) = w_1$$ and $$\phi_{\theta}(1) = w_2$$. To find a low-loss and high-accuracy path between $$w_1$$ and $$w_2$$, we can find the set of parameters $$\theta \in \mathbb{R}^{|net|}$$ that minimizes the expectation over a uniform distribution on the curve, $$\hat \ell(\theta)$$:
+\begin{equation}
+   \label{eq1}
+   \hat \ell(\theta) = \int_{0}^{1} \mathcal{L}(\phi_{\theta}(t)) q_{\theta}(t) dt = \mathbb{E}_{t \sim  q_{\theta}(t)} \mathcal{L}(\phi_{\theta}(t)),
+\end{equation}
+where the $$q_\theta(t)$$ is the distribution for sampling the models on the path indexed by t.
+However, stochastic gradients of $$\hat \ell(\theta)$$ in \eqref{eq1} are generally intractable since $$q_{\theta}(t)$$ depends on $$\theta$$.
+Therefore one can choose a more computationally tractable loss
+\begin{equation}
+   \label{eq2}
+   \ell(\theta) = \int_{0}^{1} \mathcal{L}(\phi_{\theta}(t))dt = \mathbb{E}_{t \sim U(0,1)} \mathcal{L}(\phi_{\theta}(t)),
+\end{equation}
+where $$U(0,1)$$ is the uniform distribution in the interval $$[0,1]$$.
+The difference between \eqref{eq1} and \eqref{eq2} is that 
+the former is an expectation of the loss $$\mathcal{L}(\phi_{\theta}(t))$$ with respect to a uniform distribution on the curve, 
+while \eqref{eq2} is an expectation with respect to an uniform distribution on $$t\in[0,1]$$. 
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
-
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
-
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
-</div>
-
-You can also put regular text between your rows of images.
-Say you wanted to write a little bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, *bled* for your project, and then... you reveal its glory in the next row of images.
+To minimize $$\ell(\theta)$$, at each iteration one can sample $$\hat t$$ from the uniform distribution $$U(0,1)$$ and 
+make a gradient step for $\theta$ with respect to the loss $$\mathcal{L}(\phi_{\theta}(\hat t))$$.
+This means that we would use $$\nabla_\theta \mathcal{L}(\phi_{\theta}(\hat t))$$ to estimate the true gradient of $$\ell(\theta)$$, 
+\begin{equation}
+      \nabla_\theta \mathcal{L}(\phi_{\theta}(\hat t)) \backsimeq \mathbb{E}_{t \sim U(0, 1)} \nabla_\theta \mathcal{L}(\phi_{\theta}(t))=\nabla_\theta \mathbb{E}_{t \sim U(0, 1)} \mathcal{L}(\phi_{\theta}(t))=\nabla_\theta \ell(\theta). 
+\end{equation}
 
 
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
-
-
-The code is simple.
-Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/">Bootstrap Grid</a> system).
-To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
-Here's the code for the last row of images above:
-
-{% raw %}
-```html
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-```
-{% endraw %}
+We can choose the \textbf{Bezier curve} as the basic parametric function to characterize the parametric curve $$\phi_\theta(t)$$.
+And We could initialize $$\theta$$ with $$\frac{1}{2}(w_p+w_c)$$.
+A Bezier curve provides a convenient parametrization of smooth paths with given endpoints. 
+For instance, a qadratic Bezier curve $$\phi_{\theta}(t)$$ with
+endpoints $$w_1$$ and $$w_2$$ is given by
+\begin{equation}
+    \phi_{\theta}(t) = (1 -t)^2  w_1 + 2t(1-t) \theta + t^2  w_2,~~ 0 \le t \le 1.
+\end{equation}
