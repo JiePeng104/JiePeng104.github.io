@@ -6,7 +6,8 @@ title:  # the website title (if blank, full name will be used instead)
 first_name: Jie
 middle_name: 
 last_name: Peng
-email: JiePeng1004@gmail.com
+email: jie.peng1004@gmail.com
+
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 footer_text: >
@@ -16,11 +17,11 @@ footer_text: >
 keywords: jekyll, jekyll-theme, academic-website, portfolio-website  # add your own keywords or leave empty
 
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
-icon: 👺  # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
+icon: 🔨  # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 
 url: https://jiepeng104.github.io/ # the base hostname & protocol for your site
-baseurl: /jiepeng104.github.io/ # the subpath of your site, e.g. /blog/
-last_updated: false # set to true if you want to display last updated in the footer
+# baseurl: /jiepeng104.github.io/ # the subpath of your site, e.g. /blog/
+last_updated: true # set to true if you want to display last updated in the footer
 impressum_path:  # set to path to include impressum link in the footer, use the same path as permalink in a page, helps to conform with EU GDPR
 
 # -----------------------------------------------------------------------------
@@ -48,7 +49,7 @@ rss_icon: true
 # -----------------------------------------------------------------------------
 
 navbar_fixed: true
-footer_fixed: true
+footer_fixed: false
 
 # Dimensions
 max_width: 800px
@@ -67,7 +68,7 @@ og_image: # The site-wide (default for all links) Open Graph preview image
 # Social integration
 # -----------------------------------------------------------------------------
 
-github_username: # your GitHub user name
+github_username: JiePeng104 # your GitHub user name
 gitlab_username: # your GitLab user name
 twitter_username: # your Twitter handle
 mastodon_username: # your mastodon instance+username in the format instance.tld/@username
@@ -81,7 +82,7 @@ medium_username: # your Medium username
 quora_username: # your Quora username
 publons_id: # your ID on Publons
 research_gate_profile: # your profile on ResearchGate
-blogger_url: # your blogger URL
+blogger_url: https://jiepeng104.github.io/ # your blogger URL
 work_url: # work page URL
 keybase_username: # your keybase user name
 wikidata_id: # your wikidata id
@@ -97,8 +98,8 @@ facebook_id: # your facebook id
 youtube_id: # your youtube channel id (youtube.com/@<youtube_id>)
 discord_id: # your discord id (18-digit unique numerical identifier)
 
-contact_note: >
-  You can even add a little note about which of these is the best way to reach you.
+# contact_note: >
+#   You can even add a little note about which of these is the best way to reach you.
 
 # -----------------------------------------------------------------------------
 # Analytics and search engine verification
