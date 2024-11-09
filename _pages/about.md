@@ -1,8 +1,9 @@
 ---
-layout: about
-title: right
+layout: About
+title: About
 permalink: /
-subtitle: Enthusiast for building Reliable and Security AI systems
+subtitle: <pre>                                     Enthusiast for building Reliable and Security AI systems </pre>
+
 
 profile:
   align: left
