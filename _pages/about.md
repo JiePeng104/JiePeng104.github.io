@@ -5,8 +5,8 @@ permalink: /
 subtitle: Enthusiast for building Reliable and Security AI systems
 
 profile:
-  align: right
-  image: pxArt.png
+  align: left
+  image: pj2.jpg
   image_circular: false # crops the image to make it circular
   address: >
     <p>Kunming, Yunnan</p>
