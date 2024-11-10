@@ -16,7 +16,7 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
 
-<b style="color: purple;"> Enthusiast for building Reliable and Security AI systems </b>
+<b style="color: #9690F5;"> Enthusiast for building Reliable and Security AI systems </b>
 
 Welcome！
 
