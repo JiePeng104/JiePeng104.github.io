@@ -21,8 +21,10 @@ jobs:
       with:
         ruby-version: '3.0.2'
         bundler-cache: true
-    - name: Install deps
+    - name: Install Bundler and deps
       run: |
+        gem install bundler -v 2.2.3
+        bundle install
         npm install -g mermaid.cli
     - name: Setup deploy options
       id: setup
