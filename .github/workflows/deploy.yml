@@ -24,6 +24,7 @@ jobs:
     - name: Install Bundler and deps
       run: |
         gem install bundler -v 2.2.3
+        bundle update --bundler
         bundle install
         npm install -g mermaid.cli
     - name: Setup deploy options
