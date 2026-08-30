@@ -13,7 +13,7 @@ profile:
 
 news: true  # includes a list of news items
 selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true  # includes social icons at the bottom of the page
+social: false  # includes social icons at the bottom of the page
 ---
 
 <b style="color: #9690F5;"> Enthusiast for building Reliable and Security AI systems </b>
