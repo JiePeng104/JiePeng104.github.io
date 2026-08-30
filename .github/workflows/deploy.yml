@@ -1,4 +1,4 @@
-name: deploy
+name: Deploy GitHub Pages
 
 on:
   push:
@@ -7,14 +7,20 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Ruby
@@ -23,19 +29,36 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
       - name: Install Mermaid
         run: npm install -g @mermaid-js/mermaid-cli
 
-      - name: Setup deploy options
-        id: setup
-        run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          echo "SRC_BRANCH=main" >> $GITHUB_OUTPUT
-          echo "DEPLOY_BRANCH=gh-pages" >> $GITHUB_OUTPUT
+      - name: Build site
+        env:
+          JEKYLL_ENV: production
+        run: bundle exec jekyll build
 
-      - name: Deploy website
-        run: |
-          yes | bash bin/deploy --verbose \
-            --src ${{ steps.setup.outputs.SRC_BRANCH }} \
-            --deploy ${{ steps.setup.outputs.DEPLOY_BRANCH }}
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
