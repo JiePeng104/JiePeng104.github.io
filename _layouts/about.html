@@ -18,8 +18,7 @@ layout: default
       {% endif %}
 
       {% if site.email %}
-      <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ site.email }}" target="_blank" rel="noopener noreferrer"
-        title="Email" style="margin-left: 6px; text-decoration: none;">
+      <a href="mailto:{{ site.email | encode_email }}" title="Email" style="margin-left: 6px; text-decoration: none;">
         <i class="fas fa-envelope" style="font-size: 0.58em; vertical-align: middle;"></i>
       </a>
       {% endif %}
